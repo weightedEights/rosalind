@@ -47,15 +47,47 @@ def main():
         print(f'Usage: ./mrna.py <path/dataset>')
         exit(1)
 
+    # RNA codon table from PROT, zipped into a dict
+    rna_codons = {'F': ['UUU', 'UUC'],
+                'L': ['UUA', 'UUG', 'CUU', 'CUC', 'CUA', 'CUG'],
+                'S': ['UCU', 'UCC', 'UCA', 'UCG', 'AGU', 'AGC'],
+                'Y': ['UAU', 'UAC'],
+                '*': ['UAA', 'UAG', 'UGA'],
+                'C': ['UGU', 'UGC'],
+                'W': ['UGG'],
+                'P': ['CCU', 'CCC', 'CCA', 'CCG'],
+                'H': ['CAU', 'CAC'],
+                'Q': ['CAA', 'CAG'],
+                'R': ['CGU', 'CGC', 'CGA', 'CGG', 'AGA', 'AGG'],
+                'V': ['GUU', 'GUC', 'GUA', 'GUG'],
+                'A': ['GCU', 'GCC', 'GCA', 'GCG'],
+                'D': ['GAU', 'GAC'],
+                'E': ['GAA', 'GAG'],
+                'G': ['GGU', 'GGC', 'GGA', 'GGG'],
+                'I': ['AUU', 'AUC', 'AUA'],
+                'M': ['AUG'],
+                'T': ['ACU', 'ACC', 'ACA', 'ACG'],
+                'N': ['AAU', 'AAC'],
+                'K': ['AAA', 'AAG']}
+
     # read in data set
     dataset = ""
+    count_translations = 1
 
     with open(sys.argv[1], 'r') as dataset_file:
         # handle the dataset string
 
         dataset = dataset_file.read().strip()
-        print(dataset)
 
+    for prot in dataset:
+        print(rna_codons[prot])
+        count_translations *= len(rna_codons[prot])
+        print(f'Counts: {count_translations}')
+
+    # final count must also include STOP codons '*'
+    # each protein translation could be followed by a stop, so multiply
+    count_translations *= len(rna_codons['*'])
+    print(f'Counts: {count_translations}')
 
 if __name__ == "__main__":
     main()
