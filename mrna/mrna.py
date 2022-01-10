@@ -88,6 +88,7 @@ def main():
     # each protein translation could be followed by a stop, so multiply
     count_translations *= len(rna_codons['*'])
     print(f'Counts: {count_translations}')
+    print(f'Counts mod 1000000: {count_translations % 1000000}')
 
 if __name__ == "__main__":
     main()
