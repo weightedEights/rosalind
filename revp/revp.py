@@ -36,37 +36,59 @@ import sys
 
 def main():
     # check arguments for proper usage
-    if len(sys.argv) != 3:
-        print(f'Usage: ./prtm.py <path/mass table> <path/dataset>')
+    if len(sys.argv) != 2:
+        print(f'Usage: ./revp.py <path/dataset>')
         exit(1)
 
-    # read in data set and..
+    # read in data set
     dataset = ""
 
-    # alphabet as dictionary, key:value as symbol:weight
-    weighted_alphabet = {}
-
-    with open(sys.argv[2], 'r') as dataset_file, open(sys.argv[1], 'r') as mass_table_file:
+    with open(sys.argv[1], 'r') as dataset_file:
         # handle the dataset string
-        for line in dataset_file:
-            dataset = str(line.strip())
+        # for line in dataset_file.read():
+            # dataset will end up as the last line of the file
+            # dataset = str(line.strip())
 
-        # handle the mass_table
-        for line in mass_table_file:
-            # print(line.split(' '))
-            # append dictionary, cast value as float for later math
-            weighted_alphabet[line.split(' ')[0]] = float(line.split(' ')[3].strip())
+        dataset = dataset_file.read()[14:].replace('\n', '')
+        # print(dataset)
 
     # work on the dataset
-    # print(f'Alphabet: {weighted_alphabet}')
-    dataset_weight = 0
+    return_list = []
 
     # print(f'Dataset: {dataset}')
-    for char in dataset:
-        # print(f'Symbol, Weight: {char}, {weighted_alphabet[char]}')
-        dataset_weight += weighted_alphabet[char]
+    # iterate over the whole string, from 0 to end-3
+    # print(f'dataset: {dataset[0:len(dataset)-3]}')
+    for i in range(0, len(dataset)-3):
+        # for each position, check ahead 4, 6, 8, 12 positions (inefficient)
+        for j in range(i+4, i+12+1, 2):
+            # print(f'{dataset[i:j]}, {check_rev_palindrome(dataset[i:j])}')
+            if j <= len(dataset):
+                if check_rev_palindrome(dataset[i:j]):
+                    print(f'i={i} to j={j}, {dataset[i:j]}')
+                    return_list.append((i+1, len(dataset[i:j])))
+                    # stop checking this range of j
+                    # break
 
-    print(f'Weight: {dataset_weight}')
+    # format the return tuples
+    # print("\n".join([' '.join(map(str, r)) for r in return_list]))
+
+    # write return list for submission
+    for result in return_list:
+        # print(f'{result[0]} {result[1]}')
+        with open("result.file", 'a') as fout:
+            fout.write(f'{result[0]} {result[1]}\n')
+
+
+def check_rev_palindrome(string_in):
+    # check if input string is a reverse palindrome
+    # create a translation map, since we also swap the same symbols
+    swap_table = string_in.maketrans("ATCG", "TAGC")
+
+    # check if palindrome
+    # return string_in == string_in[::-1]
+
+    # reverse, then check if palindrome
+    return string_in == string_in[::-1].translate(swap_table)
 
 
 if __name__ == "__main__":
