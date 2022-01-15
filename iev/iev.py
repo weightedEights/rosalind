@@ -63,19 +63,7 @@ def main():
     dataset = ""
 
     with open(sys.argv[1], 'r') as dataset_file:
-        # handle the dataset string
-        # for line in dataset_file.read():
-        # dataset will end up as the last line of the file
-        # dataset = str(line.strip())
-
-        dataset = dataset_file.read().splitlines()
-        # print(f'Raw data: {dataset}')
-
-    # work on the dataset
-    for s in dataset:
-        str_couples = s.split(' ')
-
-    couples = [int(couple) for couple in str_couples]
+        couples = [int(couple) for couple in dataset_file.read().split()]
 
     print(f'Couple data: {couples}')
 
