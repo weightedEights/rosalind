@@ -74,6 +74,22 @@ def main():
     couples = [int(char) for char in dataset if char != ' ']
     print(couples)
 
+    # probabilities of each position, by punnet square
+    # AA-AA, 4/4
+    # AA-Aa, 4/4
+    # AA-aa, 4/4
+    # Aa-Aa, 3/4
+    # Aa-aa, 2/4
+    # aa-aa, 0/4
+
+    probabilities = [1, 1, 1, 0.75, 0.5, 0]
+
+    # element-wise multiplication of the probabilities for each couple
+    couple_probabilities = [a_val*b_val for a_val,
+                            b_val in zip(couples, probabilities)]
+
+    print(couple_probabilities)
+
 
 if __name__ == "__main__":
     main()
