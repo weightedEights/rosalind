@@ -68,11 +68,11 @@ def main():
         # dataset will end up as the last line of the file
         # dataset = str(line.strip())
 
-        dataset = dataset_file.read()
-        print(dataset)
+        dataset = dataset_file.read().strip()
 
     # work on the dataset
-    
+    couples = [int(char) for char in dataset if char != ' ']
+    print(couples)
 
 
 if __name__ == "__main__":
