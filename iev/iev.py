@@ -68,11 +68,16 @@ def main():
         # dataset will end up as the last line of the file
         # dataset = str(line.strip())
 
-        dataset = dataset_file.read().strip()
+        dataset = dataset_file.read().splitlines()
+        # print(f'Raw data: {dataset}')
 
     # work on the dataset
-    couples = [int(char) for char in dataset if char != ' ']
-    print(couples)
+    for s in dataset:
+        str_couples = s.split(' ')
+
+    couples = [int(couple) for couple in str_couples]
+
+    print(f'Couple data: {couples}')
 
     # probabilities of each position, by punnet square
     # AA-AA, 4/4
@@ -88,7 +93,15 @@ def main():
     couple_probabilities = [a_val*b_val for a_val,
                             b_val in zip(couples, probabilities)]
 
-    print(couple_probabilities)
+    # print(couple_probabilities)
+
+    # sum total probability of dominant
+    sum_probs = sum(couple_probabilities)
+
+    # multiply by number of offspring
+    sum_probs *= 2
+
+    print(sum_probs)
 
 
 if __name__ == "__main__":
